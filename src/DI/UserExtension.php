@@ -2,6 +2,7 @@
 
 namespace Thunbolt\User\DI;
 
+use Kdyby\Doctrine\EntityManager;
 use Nette\DI\CompilerExtension;
 use Thunbolt\User\Authenticator;
 use Thunbolt\User\User;
@@ -19,7 +20,7 @@ class UserExtension extends CompilerExtension {
 		$builder = $this->getContainerBuilder();
 
 		$builder->addDefinition($this->prefix('authenticator'))
-			->setClass(Authenticator::class, ['@Kdyby\Doctrine\EntityManager', $config['repository']]);
+			->setClass(Authenticator::class, ['@' . EntityManager::class, $config['repository']]);
 	}
 
 	public function beforeCompile() {
@@ -32,7 +33,7 @@ class UserExtension extends CompilerExtension {
 
 		$builder->getDefinition('user')
 			->setClass(User::class)
-			->setFactory('Thunbolt\User\User')
+			->setFactory(User::class)
 			->addSetup('setAuthenticator', [$this->prefix('@authenticator')]);
 	}
 
