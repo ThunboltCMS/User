@@ -8,6 +8,11 @@ use Thunbolt\User\UserStorage;
 
 class UserExtension extends CompilerExtension {
 
+	/** @var array */
+	public $defaults = [
+		'repository' => 'Repository\UserRepository'
+	];
+
 	public function beforeCompile() {
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
