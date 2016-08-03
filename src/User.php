@@ -32,10 +32,23 @@ class User extends Security\User {
 	/************************* Own properties and methods **************************/
 
 	/**
+	 * @throws UserException
+	 * @return \Entity\User|IUser
+	 */
+	public function getEntity() {
+		$entity = $this->getIdentity()->getEntity();
+		if (!$entity) {
+			throw new UserException('User is not logged. Check first if user is logged.');
+		}
+
+		return $entity;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function hasRole() {
-		return $this->isLoggedIn() && $this->getIdentity()->getEntity()->getRole();
+		return $this->isLoggedIn() && $this->getEntity()->getRole();
 	}
 
 	/**
@@ -46,7 +59,7 @@ class User extends Security\User {
 			return FALSE;
 		}
 
-		return $this->getIdentity()->getEntity()->getRole()->isAdmin();
+		return $this->getEntity()->getRole()->isAdmin();
 	}
 
 	/**
@@ -57,28 +70,28 @@ class User extends Security\User {
 			return FALSE;
 		}
 
-		return $this->getIdentity()->getEntity()->getRole()->isSuperAdmin();
+		return $this->getEntity()->getRole()->isSuperAdmin();
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getAvatar() {
-		return $this->getIdentity()->getEntity()->getAvatar();
+		return $this->getEntity()->getAvatar();
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getName() {
-		return $this->getIdentity()->getEntity()->getUserName();
+		return $this->getEntity()->getUserName();
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function isMonitoring() {
-		return $this->getIdentity()->getEntity()->isMonitoring();
+		return $this->getEntity()->isMonitoring();
 	}
 
 	/**
@@ -89,13 +102,13 @@ class User extends Security\User {
 			return NULL;
 		}
 
-		return $this->getIdentity()->getEntity()->getRole()->getName();
+		return $this->getEntity()->getRole()->getName();
 	}
 
 	/************************* User methods **************************/
 
 	public function merge() {
-		$this->em->merge($this->getIdentity()->getEntity());
+		$this->em->merge($this->getEntity());
 		$this->em->flush();
 	}
 
@@ -112,7 +125,7 @@ class User extends Security\User {
 			list($resource, $privilege) = explode(':', $resource);
 		}
 
-		return $this->getAuthorizator()->isAllowed($this->getIdentity()->getEntity()->getRole(), $resource, $privilege);
+		return $this->getAuthorizator()->isAllowed($this->getEntity()->getRole(), $resource, $privilege);
 	}
 
 }
