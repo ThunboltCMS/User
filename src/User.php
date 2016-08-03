@@ -36,12 +36,12 @@ class User extends Security\User {
 	 * @return \Entity\User|IUser
 	 */
 	public function getEntity() {
-		$entity = $this->getIdentity()->getEntity();
-		if (!$entity) {
+		$identity = $this->getIdentity();
+		if (!$identity) {
 			throw new UserException('User is not logged. Check first if user is logged.');
 		}
 
-		return $entity;
+		return $identity->getEntity();
 	}
 
 	/**
