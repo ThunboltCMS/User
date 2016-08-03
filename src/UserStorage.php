@@ -5,6 +5,7 @@ namespace Thunbolt\User;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Http\Session;
 use Nette\Http;
+use Nette\Security\IIdentity;
 use Thunbolt\User\Interfaces\IRepository;
 
 class UserStorage extends Http\UserStorage {
@@ -35,6 +36,7 @@ class UserStorage extends Http\UserStorage {
 	 */
 	public function isAuthenticated() {
 		$authenticated = parent::isAuthenticated();
+
 		if ($authenticated && $this->getIdentity() instanceof Identity && !$this->getIdentity()->getEntity()) { // User not exists in DB
 			$this->setAuthenticated(FALSE);
 			$this->setIdentity(NULL);
@@ -43,6 +45,14 @@ class UserStorage extends Http\UserStorage {
 		}
 
 		return $authenticated;
+	}
+
+	public function setIdentity(IIdentity $identity = NULL) {
+		if ($identity instanceof Identity && $identity->getEntity()) {
+			$this->identity = $identity;
+		}
+
+		return parent::setIdentity($identity);
 	}
 
 	/**

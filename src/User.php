@@ -55,11 +55,7 @@ class User extends Security\User {
 	 * @return bool
 	 */
 	public function isAdmin() {
-		if (!$this->hasRole()) {
-			return FALSE;
-		}
-
-		return $this->getEntity()->getRole()->isAdmin();
+		return $this->isLoggedIn() && $this->getEntity()->isAdmin();
 	}
 
 	/**
@@ -103,6 +99,13 @@ class User extends Security\User {
 		}
 
 		return $this->getEntity()->getRole()->getName();
+	}
+
+	/**
+	 * @return \DateTime|null|void
+	 */
+	public function getRegistrationDate() {
+		return $this->getEntity()->getRegistrationDate();
 	}
 
 	/************************* User methods **************************/

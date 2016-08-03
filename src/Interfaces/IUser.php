@@ -40,4 +40,14 @@ interface IUser {
 	 */
 	public function getAvatar();
 
+	/**
+	 * @return bool
+	 */
+	public function isAdmin();
+
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getRegistrationDate();
+
 }
