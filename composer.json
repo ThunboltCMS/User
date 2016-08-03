@@ -2,7 +2,7 @@
 	"name": "thunbolt/user",
 	"type": "library",
 	"autoload": {
-		"classmap": "src/"
+		"classmap": ["src/"]
 	},
 	"require": {
 		"nette/security": "^2.3"
