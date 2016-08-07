@@ -28,7 +28,7 @@ interface IUser {
 	/**
 	 * @return string
 	 */
-	public function getUserName();
+	public function getName();
 
 	/**
 	 * @return bool
