@@ -80,7 +80,7 @@ class User extends Security\User {
 	 * @return string
 	 */
 	public function getName() {
-		return $this->getEntity()->getUserName();
+		return $this->getEntity()->getName();
 	}
 
 	/**
