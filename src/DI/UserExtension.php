@@ -10,7 +10,7 @@ class UserExtension extends CompilerExtension {
 
 	/** @var array */
 	public $defaults = [
-		'repository' => 'Repository\UserRepository'
+		'entity' => 'Model\User'
 	];
 
 	public function beforeCompile() {
@@ -19,7 +19,7 @@ class UserExtension extends CompilerExtension {
 
 		$builder->getDefinition('security.userStorage')
 			->setFactory(UserStorage::class)
-			->addSetup('setRepository', [$config['repository']]);
+			->addSetup('setRepository', [$config['entity']]);
 
 		$builder->getDefinition('user')
 			->setClass(User::class)
