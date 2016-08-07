@@ -3,6 +3,7 @@
 namespace Thunbolt\User\DI;
 
 use Nette\DI\CompilerExtension;
+use Thunbolt\User\Authenticator;
 use Thunbolt\User\User;
 use Thunbolt\User\UserStorage;
 
@@ -10,8 +11,17 @@ class UserExtension extends CompilerExtension {
 
 	/** @var array */
 	public $defaults = [
-		'entity' => 'Model\User'
+		'entity' => 'Model\User',
+		'authenticator' => Authenticator::class
 	];
+
+	public function loadConfiguration() {
+		$builder = $this->getContainerBuilder();
+		$config = $this->validateConfig($this->defaults);
+
+		$builder->addDefinition($this->prefix('authenticator'))
+			->setClass($config['authenticator'], [$config['entity']]);
+	}
 
 	public function beforeCompile() {
 		$builder = $this->getContainerBuilder();
