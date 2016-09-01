@@ -3,20 +3,20 @@
 namespace Thunbolt\User;
 
 use Nette;
-use Thunbolt\User\Interfaces\IUser;
+use Thunbolt\User\Interfaces\IEntity;
 
 class Identity extends Nette\Object implements Nette\Security\IIdentity {
 
-	/** @var IUser */
+	/** @var IEntity */
 	private $entity;
 
 	/** @var int */
 	private $id;
 
 	/**
-	 * @param IUser $entity
+	 * @param IEntity $entity
 	 */
-	public function __construct($id, IUser $entity = NULL) {
+	public function __construct($id, IEntity $entity = NULL) {
 		$this->setId($id);
 		$this->entity = $entity;
 	}
@@ -50,7 +50,7 @@ class Identity extends Nette\Object implements Nette\Security\IIdentity {
 	}
 
 	/**
-	 * @return IUser|\Entity\User
+	 * @return IEntity|\Model\User
 	 */
 	public function getEntity() {
 		return $this->entity;
