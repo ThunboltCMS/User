@@ -6,13 +6,13 @@ interface IRepository {
 
 	/**
 	 * @param int $id
-	 * @return IUser
+	 * @return IEntity
 	 */
 	public function getUserById($id);
 
 	/**
 	 * @param mixed $value
-	 * @return IUser
+	 * @return IEntity
 	 */
 	public function login($value);
 

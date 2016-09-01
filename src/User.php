@@ -7,17 +7,15 @@ use Nette\Security;
 use Nette\Security\IAuthenticator;
 use Nette\Security\IAuthorizator;
 use Nette\Security\IUserStorage;
-use Thunbolt\User\Interfaces\IUser;
+use Thunbolt\User\Interfaces\IEntity;
 
 /**
- * @property Identity|IUser|\Entity\User$identity
  * @property string $avatar
  * @property string $name
  * @property string $primary
  * @property string $roleName
- * @method Identity|IUser|\Entity\User getIdentity()
  */
-class User extends Security\User {
+class User extends Security\User implements IUser {
 
 	/** @var EntityManager */
 	private $em;
@@ -33,7 +31,7 @@ class User extends Security\User {
 
 	/**
 	 * @throws UserException
-	 * @return \Entity\User|IUser
+	 * @return \Model\User|IEntity
 	 */
 	public function getEntity() {
 		$identity = $this->getIdentity();
@@ -47,26 +45,8 @@ class User extends Security\User {
 	/**
 	 * @return bool
 	 */
-	public function hasRole() {
-		return $this->isLoggedIn() && $this->getEntity()->getRole();
-	}
-
-	/**
-	 * @return bool
-	 */
 	public function isAdmin() {
 		return $this->isLoggedIn() && $this->getEntity()->isAdmin();
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function isSuperAdmin() {
-		if (!$this->hasRole()) {
-			return FALSE;
-		}
-
-		return $this->getEntity()->getRole()->isSuperAdmin();
 	}
 
 	/**
@@ -94,7 +74,7 @@ class User extends Security\User {
 	 * @return string
 	 */
 	public function getRoleName() {
-		if (!$this->hasRole()) {
+		if (!$this->getEntity()->getRole()) {
 			return NULL;
 		}
 

@@ -5,6 +5,7 @@ namespace Thunbolt\User\DI;
 use Nette\DI\CompilerExtension;
 use Thunbolt\User\Authenticator;
 use Thunbolt\User\Authorizator;
+use Thunbolt\User\IUser;
 use Thunbolt\User\User;
 use Thunbolt\User\UserStorage;
 
@@ -40,7 +41,7 @@ class UserExtension extends CompilerExtension {
 			->addSetup('setRepository', [$config['entity']]);
 
 		$builder->getDefinition('user')
-			->setClass(User::class)
+			->setClass(IUser::class)
 			->setFactory(User::class)
 			->addSetup('setAuthenticator', [$this->prefix('@authenticator')]);
 	}

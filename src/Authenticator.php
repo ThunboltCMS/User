@@ -26,9 +26,10 @@ class Authenticator implements IAuthenticator {
 
 	/**
 	 * @param array $credentials
-	 * @throws Security\AuthenticationException
+	 * @throws BadPasswordException
+	 * @throws UserNotFoundException
 	 * @throws \Exception
-	 * @return Identity|Security\IIdentity
+	 * @return Security\IIdentity|Identity
 	 */
 	public function authenticate(array $credentials) {
 		list($email, $password) = $credentials;

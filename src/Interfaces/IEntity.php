@@ -2,11 +2,10 @@
 
 namespace Thunbolt\User\Interfaces;
 
-interface IUser {
+interface IEntity {
 
 	/**
 	 * @param string $password
-	 * @return mixed
 	 */
 	public function setPassword($password);
 
