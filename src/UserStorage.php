@@ -14,7 +14,7 @@ class UserStorage extends Http\UserStorage {
 	private $em;
 
 	/** @var string */
-	private $repository = 'Entity\User';
+	private $repository = 'Model\User';
 
 	/** @var Identity */
 	private $identity;

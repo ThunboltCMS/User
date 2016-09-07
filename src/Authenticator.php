@@ -27,8 +27,8 @@ class Authenticator implements IAuthenticator {
 	/**
 	 * @param array $credentials
 	 * @throws BadPasswordException
+	 * @throws UserException
 	 * @throws UserNotFoundException
-	 * @throws \Exception
 	 * @return Security\IIdentity|Identity
 	 */
 	public function authenticate(array $credentials) {
@@ -36,7 +36,7 @@ class Authenticator implements IAuthenticator {
 
 		$repository = $this->em->getRepository($this->repository);
 		if (!$repository instanceof IRepository) {
-			throw new \Exception('Repository must be instace of ' . IRepository::class);
+			throw new UserException('Repository must be instace of ' . IRepository::class);
 		}
 
 		$row = $repository->login($email);
