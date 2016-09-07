@@ -36,7 +36,7 @@ class Authenticator implements IAuthenticator {
 
 		$repository = $this->em->getRepository($this->repository);
 		if (!$repository instanceof IRepository) {
-			throw new UserException('Repository must be instace of ' . IRepository::class);
+			throw new UserException('Repository must be instance of ' . IRepository::class);
 		}
 
 		$row = $repository->login($email);
