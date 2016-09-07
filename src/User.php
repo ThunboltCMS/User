@@ -64,13 +64,6 @@ class User extends Security\User implements IUser {
 	}
 
 	/**
-	 * @return bool
-	 */
-	public function isMonitoring() {
-		return $this->getEntity()->isMonitoring();
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getRoleName() {

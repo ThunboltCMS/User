@@ -30,11 +30,6 @@ interface IEntity {
 	public function getName();
 
 	/**
-	 * @return bool
-	 */
-	public function isMonitoring();
-
-	/**
 	 * @return string
 	 */
 	public function getAvatar();

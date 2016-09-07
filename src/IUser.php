@@ -44,11 +44,6 @@ interface IUser {
 	public function getAvatar();
 
 	/**
-	 * @return bool
-	 */
-	public function isMonitoring();
-
-	/**
 	 * @return null|string
 	 */
 	public function getRoleName();
