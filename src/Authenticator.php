@@ -41,11 +41,10 @@ class Authenticator implements IAuthenticator {
 		}
 
 		$row = $repository->login($email);
-		if (!$row instanceof IUserModel) {
-			throw new UserException('User entity must implements ' . IUserModel::class);
-		}
 		if (!$row) {
 			throw new UserNotFoundException();
+		} else if (!$row instanceof IUserModel) {
+			throw new UserException('User entity must implements ' . IUserModel::class);
 		} elseif (!Security\Passwords::verify($password, $row->getPassword())) {
 			throw new BadPasswordException();
 		} elseif (Security\Passwords::needsRehash($row->getPassword())) {
