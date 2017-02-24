@@ -2,7 +2,7 @@
 
 namespace Thunbolt\User\Interfaces;
 
-interface IEntity {
+interface IUserModel {
 
 	/**
 	 * @param string $password

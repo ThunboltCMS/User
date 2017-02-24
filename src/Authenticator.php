@@ -5,7 +5,8 @@ namespace Thunbolt\User;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Security\IAuthenticator;
 use Nette\Security;
-use Thunbolt\User\Interfaces\IRepository;
+use Thunbolt\User\Interfaces\IUserRepository;
+use Thunbolt\User\Interfaces\IUserModel;
 
 class Authenticator implements IAuthenticator {
 
@@ -35,11 +36,14 @@ class Authenticator implements IAuthenticator {
 		list($email, $password) = $credentials;
 
 		$repository = $this->em->getRepository($this->repository);
-		if (!$repository instanceof IRepository) {
-			throw new UserException('Repository must be instance of ' . IRepository::class);
+		if (!$repository instanceof IUserRepository) {
+			throw new UserException('Repository must implements ' . IUserRepository::class);
 		}
 
 		$row = $repository->login($email);
+		if (!$row instanceof IUserModel) {
+			throw new UserException('User entity must implements ' . IUserModel::class);
+		}
 		if (!$row) {
 			throw new UserNotFoundException();
 		} elseif (!Security\Passwords::verify($password, $row->getPassword())) {

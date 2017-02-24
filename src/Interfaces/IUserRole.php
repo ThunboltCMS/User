@@ -2,7 +2,7 @@
 
 namespace Thunbolt\User\Interfaces;
 
-interface IRole {
+interface IUserRole {
 
 	/**
 	 * @return bool

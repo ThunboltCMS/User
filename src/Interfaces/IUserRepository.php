@@ -2,7 +2,7 @@
 
 namespace Thunbolt\User\Interfaces;
 
-interface IRepository {
+interface IUserRepository {
 
 	/**
 	 * @param int $id
