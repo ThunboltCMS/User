@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Thunbolt\User;
 
 use Kdyby\Doctrine\EntityManager;
@@ -8,6 +10,7 @@ use Nette\Security\IAuthenticator;
 use Nette\Security\IAuthorizator;
 use Nette\Security\IUserStorage;
 use Thunbolt\User\Interfaces\IEntity;
+use Thunbolt\User\Interfaces\IUserModel;
 
 /**
  * @property string $avatar
@@ -31,7 +34,7 @@ class User extends Security\User implements IUser {
 
 	/**
 	 * @throws UserException
-	 * @return \Model\User|IEntity
+	 * @return \Model\User|IUserModel
 	 */
 	public function getEntity() {
 		$identity = $this->getIdentity();
@@ -45,28 +48,28 @@ class User extends Security\User implements IUser {
 	/**
 	 * @return bool
 	 */
-	public function isAdmin() {
+	public function isAdmin(): bool {
 		return $this->isLoggedIn() && $this->getEntity()->isAdmin();
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getAvatar() {
+	public function getAvatar(): string {
 		return $this->getEntity()->getAvatar();
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->getEntity()->getName();
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getRoleName() {
+	public function getRoleName(): ?string {
 		if (!$this->getEntity()->getRole()) {
 			return NULL;
 		}
@@ -74,16 +77,13 @@ class User extends Security\User implements IUser {
 		return $this->getEntity()->getRole()->getName();
 	}
 
-	/**
-	 * @return \DateTime|null|void
-	 */
-	public function getRegistrationDate() {
+	public function getRegistrationDate(): ?\DateTime {
 		return $this->getEntity()->getRegistrationDate();
 	}
 
 	/************************* User methods **************************/
 
-	public function merge() {
+	public function merge(): void {
 		$this->em->merge($this->getEntity());
 		$this->em->flush();
 	}
@@ -93,7 +93,7 @@ class User extends Security\User implements IUser {
 	 * @param string $privilege
 	 * @return bool
 	 */
-	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL) {
+	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL): bool {
 		if (!$this->isLoggedIn()) {
 			return FALSE;
 		}

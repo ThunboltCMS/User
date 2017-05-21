@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Thunbolt\User;
 
 use Kdyby\Doctrine\EntityManager;
@@ -34,7 +36,7 @@ class UserStorage extends Http\UserStorage {
 	 *
 	 * @return bool
 	 */
-	public function isAuthenticated() {
+	public function isAuthenticated(): bool {
 		$authenticated = parent::isAuthenticated();
 
 		if ($authenticated && $this->getIdentity() instanceof Identity && !$this->getIdentity()->getEntity()) { // User not exists in DB
@@ -84,7 +86,7 @@ class UserStorage extends Http\UserStorage {
 	 * @param string $repository
 	 * @return self
 	 */
-	public function setRepository($repository) {
+	public function setRepository($repository): self {
 		$this->repository = $repository;
 
 		return $this;

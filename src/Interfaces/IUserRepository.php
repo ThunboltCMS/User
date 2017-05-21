@@ -1,19 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Thunbolt\User\Interfaces;
 
 interface IUserRepository {
 
-	/**
-	 * @param int $id
-	 * @return IEntity
-	 */
-	public function getUserById($id);
+	public function getUserById(int $id): ?IUserModel;
 
 	/**
 	 * @param mixed $value
-	 * @return IEntity
+	 * @return IUserModel
 	 */
-	public function login($value);
+	public function login($value): ?IUserModel;
 
 }

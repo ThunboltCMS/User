@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Thunbolt\User;
 
 use Nette\Security\IAuthorizator;
@@ -12,31 +14,23 @@ class Authorizator implements IAuthorizator {
 	/** @var bool */
 	private $enabled = TRUE;
 
-	public function __construct($enabled = TRUE) {
+	public function __construct(bool $enabled = TRUE) {
 		$this->enabled = $enabled;
 	}
 
-	/**
-	 * @param bool $enabled
-	 * @return self
-	 */
-	public function setEnabled($enabled = TRUE) {
+	public function setEnabled(bool $enabled = TRUE): self {
 		$this->enabled = $enabled;
 
 		return $this;
 	}
 
-	/**
-	 * @param array $privileges
-	 * @return self
-	 */
-	public function setPrivileges(array $privileges) {
+	public function setPrivileges(array $privileges): self {
 		$this->privileges = $privileges;
 
 		return $this;
 	}
 
-	public function isAllowedExtend($resource) {
+	public function isAllowedExtend($resource): bool {
 		if (!$this->enabled) {
 			return TRUE;
 		}
@@ -80,7 +74,7 @@ class Authorizator implements IAuthorizator {
 	 * @param string $privilege
 	 * @return bool
 	 */
-	public function isAllowed($role, $resource, $privilege) {
+	public function isAllowed($role, $resource, $privilege): bool {
 		if (!$this->enabled) {
 			return TRUE;
 		}
@@ -90,4 +84,5 @@ class Authorizator implements IAuthorizator {
 
 		return in_array($resource . ':' . $privilege, $this->privileges);
 	}
+
 }

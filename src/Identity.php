@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Thunbolt\User;
 
 use Nette;
@@ -13,30 +15,28 @@ class Identity extends Nette\Object implements Nette\Security\IIdentity {
 	/** @var int */
 	private $id;
 
-	/**
-	 * @param IEntity $entity
-	 */
-	public function __construct($id, IEntity $entity = NULL) {
+	public function __construct(int $id, IEntity $entity = NULL) {
 		$this->setId($id);
 		$this->entity = $entity;
 	}
 
 	/**
 	 * Sets the ID of user.
-	 * @param  mixed
+	 * @param int
 	 * @return self
 	 */
-	public function setId($id) {
-		$this->id = is_numeric($id) && !is_float($tmp = $id * 1) ? $tmp : $id;
+	public function setId(int $id) {
+		$this->id = $id;
+
 		return $this;
 	}
 
 	/**
 	 * Returns the ID of user.
 	 *
-	 * @return mixed
+	 * @return int
 	 */
-	public function getId() {
+	public function getId(): int {
 		return $this->id;
 	}
 
@@ -45,7 +45,7 @@ class Identity extends Nette\Object implements Nette\Security\IIdentity {
 	 *
 	 * @return array
 	 */
-	public function getRoles() {
+	public function getRoles(): array {
 		return [$this->entity->getRole()];
 	}
 
@@ -63,7 +63,7 @@ class Identity extends Nette\Object implements Nette\Security\IIdentity {
 	 * @param  mixed   property value
 	 * @return void
 	 */
-	public function __set($key, $value) {
+	public function __set(string $key, $value) {
 		$this->entity->$key = $value;
 	}
 
@@ -73,7 +73,7 @@ class Identity extends Nette\Object implements Nette\Security\IIdentity {
 	 * @param  string  property name
 	 * @return mixed
 	 */
-	public function &__get($key) {
+	public function &__get(string $key) {
 		$get = $this->entity->$key;
 
 		return $get;
@@ -85,7 +85,7 @@ class Identity extends Nette\Object implements Nette\Security\IIdentity {
 	 * @param  string  property name
 	 * @return bool
 	 */
-	public function __isset($key) {
+	public function __isset(string $key) {
 		return isset($this->entity->$key);
 	}
 
@@ -96,7 +96,7 @@ class Identity extends Nette\Object implements Nette\Security\IIdentity {
 	 * @return void
 	 * @throws Nette\MemberAccessException
 	 */
-	public function __unset($name) {
+	public function __unset(string $name) {
 		unset($this->entity->$name);
 	}
 
@@ -107,7 +107,7 @@ class Identity extends Nette\Object implements Nette\Security\IIdentity {
 	 * @param array $args
 	 * @return mixed
 	 */
-	public function __call($name, $args) {
+	public function __call(string $name, array $args) {
 		if ($this->entity) {
 			return call_user_func_array([$this->entity, $name], $args);
 		}
@@ -116,7 +116,7 @@ class Identity extends Nette\Object implements Nette\Security\IIdentity {
 	/**
 	 * @return array
 	 */
-	public function __sleep() {
+	public function __sleep(): array {
 		return ['id'];
 	}
 

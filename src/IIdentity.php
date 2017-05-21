@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Thunbolt\User;
 
 use Thunbolt\User\Interfaces\IEntity;

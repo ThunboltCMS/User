@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Thunbolt\User\Interfaces;
 
 interface IUserModel {
@@ -7,41 +9,41 @@ interface IUserModel {
 	/**
 	 * @param string $password
 	 */
-	public function setPassword($password);
+	public function setPassword(string $password): void;
 
 	/**
 	 * @return string
 	 */
-	public function getPassword();
+	public function getPassword(): string;
 
 	/**
 	 * @return int
 	 */
-	public function getId();
+	public function getId(): int;
 
 	/**
-	 * @return IRole|null
+	 * @return IUserRole|null
 	 */
-	public function getRole();
-
-	/**
-	 * @return string
-	 */
-	public function getName();
+	public function getRole(): ?IUserRole;
 
 	/**
 	 * @return string
 	 */
-	public function getAvatar();
+	public function getName(): string;
+
+	/**
+	 * @return string
+	 */
+	public function getAvatar(): string;
 
 	/**
 	 * @return bool
 	 */
-	public function isAdmin();
+	public function isAdmin(): bool;
 
 	/**
 	 * @return \DateTime|null
 	 */
-	public function getRegistrationDate();
+	public function getRegistrationDate(): ?\DateTime;
 
 }

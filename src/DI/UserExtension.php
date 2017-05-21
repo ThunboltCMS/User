@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Thunbolt\User\DI;
 
 use Nette\DI\CompilerExtension;
@@ -20,7 +22,7 @@ class UserExtension extends CompilerExtension {
 		]
 	];
 
-	public function loadConfiguration() {
+	public function loadConfiguration(): void {
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
 
@@ -31,7 +33,7 @@ class UserExtension extends CompilerExtension {
 			->setClass($config['authorizator']['class'], [$config['authorizator']['enable']]);
 	}
 
-	public function beforeCompile() {
+	public function beforeCompile(): void {
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
 

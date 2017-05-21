@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Thunbolt\User;
 
 use Kdyby\Doctrine\EntityManager;
@@ -16,11 +18,7 @@ class Authenticator implements IAuthenticator {
 	/** @var string */
 	private $repository;
 
-	/**
-	 * @param string $repository
-	 * @param EntityManager $em
-	 */
-	public function __construct($repository, EntityManager $em) {
+	public function __construct(string $repository, EntityManager $em) {
 		$this->em = $em;
 		$this->repository = $repository;
 	}

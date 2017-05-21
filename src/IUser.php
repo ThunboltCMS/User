@@ -10,18 +10,18 @@ interface IUser {
 	/**
 	 * @return int
 	 */
-	public function getId();
+	public function getId(): int;
 
 	/**
 	 * Why was user logged out?
 	 * @return int
 	 */
-	public function getLogoutReason();
+	public function getLogoutReason(): int;
 
 	/**
 	 * @return IIdentity
 	 */
-	public function getIdentity();
+	public function getIdentity(): IIdentity;
 
 	/**
 	 * @return IEntity|\Model\User
@@ -31,36 +31,36 @@ interface IUser {
 	/**
 	 * @return bool
 	 */
-	public function isAdmin();
+	public function isAdmin(): bool;
 
 	/**
 	 * @return string
 	 */
-	public function getName();
+	public function getName(): string;
 
 	/**
 	 * @return string
 	 */
-	public function getAvatar();
+	public function getAvatar(): string;
 
 	/**
 	 * @return null|string
 	 */
-	public function getRoleName();
+	public function getRoleName(): ?string;
 
 	/**
 	 * @return \DateTime|null
 	 */
-	public function getRegistrationDate();
+	public function getRegistrationDate(): ?\DateTime;
 
-	public function merge();
+	public function merge(): void;
 
 	/**
 	 * @param mixed $resource
 	 * @param mixed $privilege
-	 * @return mixed
+	 * @return bool
 	 */
-	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL);
+	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL): bool;
 
 	/**
 	 * Conducts the authentication process. Parameters are optional.
@@ -70,19 +70,19 @@ interface IUser {
 	 * @throws BadPasswordException if authentication was not successful
 	 * @throws UserNotFoundException if authentication was not successful
 	 */
-	public function login($id = NULL, $password = NULL);
+	public function login($id = NULL, $password = NULL): void;
 
 	/**
 	 * Logs out the user from the current session.
 	 * @param bool $clearIdentity clear the identity from persistent storage?
 	 * @return void
 	 */
-	public function logout($clearIdentity = FALSE);
+	public function logout($clearIdentity = FALSE): void;
 
 	/**
 	 * Is this user authenticated?
 	 * @return bool
 	 */
-	public function isLoggedIn();
+	public function isLoggedIn(): bool;
 
 }
