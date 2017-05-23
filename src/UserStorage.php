@@ -62,7 +62,7 @@ class UserStorage extends Http\UserStorage {
 	 *
 	 * @return \Nette\Security\IIdentity|Identity
 	 */
-	public function getIdentity(): IIdentity {
+	public function getIdentity(): ?IIdentity {
 		if ($this->identity) {
 			return $this->identity;
 		}
