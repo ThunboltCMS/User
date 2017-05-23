@@ -4,24 +4,25 @@ namespace Thunbolt\User;
 
 use Nette\Security\IAuthorizator;
 use Thunbolt\User\Interfaces\IEntity;
+use Nette\Security\IIdentity;
 
 interface IUser {
 
 	/**
 	 * @return int
 	 */
-	public function getId(): int;
+	public function getId();
 
 	/**
 	 * Why was user logged out?
 	 * @return int
 	 */
-	public function getLogoutReason(): int;
+	public function getLogoutReason(): ?int;
 
 	/**
 	 * @return IIdentity
 	 */
-	public function getIdentity(): IIdentity;
+	public function getIdentity(): ?IIdentity;
 
 	/**
 	 * @return IEntity|\Model\User
@@ -77,7 +78,7 @@ interface IUser {
 	 * @param bool $clearIdentity clear the identity from persistent storage?
 	 * @return void
 	 */
-	public function logout($clearIdentity = FALSE): void;
+	public function logout(bool $clearIdentity = FALSE): void;
 
 	/**
 	 * Is this user authenticated?
