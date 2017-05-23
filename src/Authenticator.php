@@ -30,7 +30,7 @@ class Authenticator implements IAuthenticator {
 	 * @throws UserNotFoundException
 	 * @return Security\IIdentity|Identity
 	 */
-	public function authenticate(array $credentials) {
+	public function authenticate(array $credentials): Security\IIdentity {
 		list($email, $password) = $credentials;
 
 		$repository = $this->em->getRepository($this->repository);
