@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace Thunbolt\User;
 
 use Nette;
-use Thunbolt\User\Interfaces\IEntity;
+use Thunbolt\User\Interfaces\IUserModel;
 
-class Identity extends Nette\Object implements Nette\Security\IIdentity {
+class Identity implements Nette\Security\IIdentity {
 
-	/** @var IEntity */
+	/** @var IUserModel */
 	private $entity;
 
 	/** @var int */
 	private $id;
 
-	public function __construct(int $id, IEntity $entity = NULL) {
+	public function __construct(int $id, IUserModel $entity = NULL) {
 		$this->setId($id);
 		$this->entity = $entity;
 	}
@@ -50,9 +50,9 @@ class Identity extends Nette\Object implements Nette\Security\IIdentity {
 	}
 
 	/**
-	 * @return IEntity|\Model\User
+	 * @return IUserModel
 	 */
-	public function getEntity() {
+	public function getEntity(): IUserModel {
 		return $this->entity;
 	}
 
@@ -63,7 +63,7 @@ class Identity extends Nette\Object implements Nette\Security\IIdentity {
 	 * @param  mixed   property value
 	 * @return void
 	 */
-	public function __set(string $key, $value) {
+	public function __set(string $key, $value): void {
 		$this->entity->$key = $value;
 	}
 
@@ -85,7 +85,7 @@ class Identity extends Nette\Object implements Nette\Security\IIdentity {
 	 * @param  string  property name
 	 * @return bool
 	 */
-	public function __isset(string $key) {
+	public function __isset(string $key): bool {
 		return isset($this->entity->$key);
 	}
 
@@ -96,7 +96,7 @@ class Identity extends Nette\Object implements Nette\Security\IIdentity {
 	 * @return void
 	 * @throws Nette\MemberAccessException
 	 */
-	public function __unset(string $name) {
+	public function __unset(string $name): void {
 		unset($this->entity->$name);
 	}
 
@@ -111,6 +111,8 @@ class Identity extends Nette\Object implements Nette\Security\IIdentity {
 		if ($this->entity) {
 			return call_user_func_array([$this->entity, $name], $args);
 		}
+
+		return NULL;
 	}
 
 	/**

@@ -8,7 +8,7 @@ use Kdyby\Doctrine\EntityManager;
 use Nette\Http\Session;
 use Nette\Http;
 use Nette\Security\IIdentity;
-use Thunbolt\User\Interfaces\IRepository;
+use Thunbolt\User\Interfaces\IUserRepository;
 
 class UserStorage extends Http\UserStorage {
 
@@ -70,7 +70,7 @@ class UserStorage extends Http\UserStorage {
 
 		if ($identity instanceof Identity) {
 			$repository = $this->em->getRepository($this->repository);
-			if ($repository instanceof IRepository) {
+			if ($repository instanceof IUserRepository) {
 				$entity = $repository->getUserById($identity->getId());
 			} else {
 				$entity = $repository->find($identity->getId());

@@ -34,7 +34,7 @@ class User extends Security\User implements IUser {
 
 	/**
 	 * @throws UserException
-	 * @return \Model\User|IUserModel
+	 * @return IUserModel
 	 */
 	public function getEntity() {
 		$identity = $this->getIdentity();
