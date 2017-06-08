@@ -59,8 +59,8 @@ class Identity implements Nette\Security\IIdentity {
 	/**
 	 * Sets user data value.
 	 *
-	 * @param  string  property name
-	 * @param  mixed   property value
+	 * @param string $key
+	 * @param mixed $value
 	 * @return void
 	 */
 	public function __set(string $key, $value): void {
@@ -70,7 +70,7 @@ class Identity implements Nette\Security\IIdentity {
 	/**
 	 * Returns user data value.
 	 *
-	 * @param  string  property name
+	 * @param string $key
 	 * @return mixed
 	 */
 	public function &__get(string $key) {
@@ -82,7 +82,7 @@ class Identity implements Nette\Security\IIdentity {
 	/**
 	 * Is property defined?
 	 *
-	 * @param  string  property name
+	 * @param string $key
 	 * @return bool
 	 */
 	public function __isset(string $key): bool {
@@ -92,7 +92,7 @@ class Identity implements Nette\Security\IIdentity {
 	/**
 	 * Removes property.
 	 *
-	 * @param  string  property name
+	 * @param string $name
 	 * @return void
 	 * @throws Nette\MemberAccessException
 	 */
