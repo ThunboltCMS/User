@@ -26,11 +26,9 @@ class UserExtension extends CompilerExtension {
 
 	public function beforeCompile(): void {
 		$builder = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults);
 
 		$builder->getDefinition('security.userStorage')
-			->setFactory(UserStorage::class)
-			->addSetup('setRepository', [$config['entity']]);
+			->setFactory(UserStorage::class);
 
 		$builder->getDefinition('user')
 			->setClass(User::class)
