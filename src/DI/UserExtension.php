@@ -21,7 +21,7 @@ class UserExtension extends CompilerExtension {
 		$config = $this->validateConfig($this->defaults);
 
 		$builder->addDefinition($this->prefix('authenticator'))
-			->setClass($config['authenticator'], [$config['entity']]);
+			->setClass($config['authenticator']);
 	}
 
 	public function beforeCompile(): void {

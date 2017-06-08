@@ -13,7 +13,7 @@ class Authenticator implements IAuthenticator {
 	/** @var IUserDAO */
 	private $userDAO;
 
-	public function __construct(string $repository, IUserDAO $userDAO) {
+	public function __construct(IUserDAO $userDAO) {
 		$this->userDAO = $userDAO;
 	}
 
