@@ -10,6 +10,7 @@ use Nette\Security\IAuthenticator;
 use Nette\Security\IAuthorizator;
 use Nette\Security\IUserStorage;
 use Thunbolt\User\Interfaces\IEntity;
+use Thunbolt\User\Interfaces\IUserDAO;
 use Thunbolt\User\Interfaces\IUserModel;
 
 /**
@@ -20,14 +21,14 @@ use Thunbolt\User\Interfaces\IUserModel;
  */
 class User extends Security\User implements IUser {
 
-	/** @var EntityManager */
-	private $em;
+	/** @var IUserDAO */
+	private $userDAO;
 
-	public function __construct(IUserStorage $storage, EntityManager $em, IAuthenticator $authenticator = NULL,
+	public function __construct(IUserStorage $storage, IUserDAO $userDAO, IAuthenticator $authenticator = NULL,
 								IAuthorizator $authorizator = NULL) {
 		parent::__construct($storage, $authenticator, $authorizator);
 
-		$this->em = $em;
+		$this->userDAO = $userDAO;
 	}
 
 	/************************* Own properties and methods **************************/
@@ -84,8 +85,7 @@ class User extends Security\User implements IUser {
 	/************************* User methods **************************/
 
 	public function merge(): void {
-		$this->em->merge($this->getEntity());
-		$this->em->flush();
+		$this->userDAO->merge($this->getEntity());
 	}
 
 	/**

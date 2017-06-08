@@ -4,31 +4,27 @@ declare(strict_types=1);
 
 namespace Thunbolt\User;
 
-use Kdyby\Doctrine\EntityManager;
 use Nette\Http\Session;
 use Nette\Http;
 use Nette\Security\IIdentity;
-use Thunbolt\User\Interfaces\IUserRepository;
+use Thunbolt\User\Interfaces\IUserDAO;
 
 class UserStorage extends Http\UserStorage {
-
-	/** @var EntityManager */
-	private $em;
-
-	/** @var string */
-	private $repository = 'Model\User';
 
 	/** @var Identity */
 	private $identity;
 
+	/** @var IUserDAO */
+	private $userDAO;
+
 	/**
 	 * @param Session $sessionHandler
-	 * @param EntityManager $em
+	 * @param IUserDAO $userDAO
 	 */
-	public function __construct(Session $sessionHandler, EntityManager $em) {
+	public function __construct(Session $sessionHandler, IUserDAO $userDAO) {
 		parent::__construct($sessionHandler);
 
-		$this->em = $em;
+		$this->userDAO = $userDAO;
 	}
 
 	/**
@@ -69,27 +65,10 @@ class UserStorage extends Http\UserStorage {
 		$identity = parent::getIdentity();
 
 		if ($identity instanceof Identity) {
-			$repository = $this->em->getRepository($this->repository);
-			if ($repository instanceof IUserRepository) {
-				$entity = $repository->getUserById($identity->getId());
-			} else {
-				$entity = $repository->find($identity->getId());
-			}
-
-			$this->identity = new Identity($identity->getId(), $entity);
+			$this->identity = new Identity($identity->getId(), $this->userDAO->getRepository()->getUserById($identity->getId()));
 		}
 
 		return $this->identity;
-	}
-
-	/**
-	 * @param string $repository
-	 * @return self
-	 */
-	public function setRepository($repository): self {
-		$this->repository = $repository;
-
-		return $this;
 	}
 
 }
