@@ -32,9 +32,9 @@ interface IUserModel {
 	public function getName(): string;
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getAvatar(): string;
+	public function getAvatar(): ?string;
 
 	/**
 	 * @return bool
