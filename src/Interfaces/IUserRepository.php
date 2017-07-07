@@ -6,11 +6,15 @@ namespace Thunbolt\User\Interfaces;
 
 interface IUserRepository {
 
-	public function getUserById(int $id): ?IUserModel;
+	/**
+	 * @param mixed $id
+	 * @return null|IUserModel
+	 */
+	public function getUserById($id): ?IUserModel;
 
 	/**
 	 * @param mixed $value
-	 * @return IUserModel
+	 * @return null|IUserModel
 	 */
 	public function login($value): ?IUserModel;
 

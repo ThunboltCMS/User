@@ -17,9 +17,9 @@ interface IUserModel {
 	public function getPassword(): string;
 
 	/**
-	 * @return int
+	 * @return mixed
 	 */
-	public function getId(): int;
+	public function getId();
 
 	/**
 	 * @return IUserRole|null

@@ -15,17 +15,17 @@ class Identity implements Nette\Security\IIdentity {
 	/** @var int */
 	private $id;
 
-	public function __construct(int $id, IUserModel $entity = NULL) {
+	public function __construct($id, IUserModel $entity = NULL) {
 		$this->setId($id);
 		$this->entity = $entity;
 	}
 
 	/**
 	 * Sets the ID of user.
-	 * @param int
+	 * @param mixed
 	 * @return self
 	 */
-	public function setId(int $id) {
+	public function setId($id) {
 		$this->id = $id;
 
 		return $this;
@@ -34,9 +34,9 @@ class Identity implements Nette\Security\IIdentity {
 	/**
 	 * Returns the ID of user.
 	 *
-	 * @return int
+	 * @return mixed
 	 */
-	public function getId(): int {
+	public function getId() {
 		return $this->id;
 	}
 
