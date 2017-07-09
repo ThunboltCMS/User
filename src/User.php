@@ -54,9 +54,9 @@ class User extends Security\User implements IUser {
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getAvatar(): string {
+	public function getAvatar(): ?string {
 		return $this->getEntity()->getAvatar();
 	}
 

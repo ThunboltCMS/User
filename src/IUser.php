@@ -40,9 +40,9 @@ interface IUser {
 	public function getName(): string;
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getAvatar(): string;
+	public function getAvatar(): ?string;
 
 	/**
 	 * @return null|string
