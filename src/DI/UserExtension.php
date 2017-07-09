@@ -18,7 +18,7 @@ class UserExtension extends CompilerExtension {
 
 	/** @var array */
 	public $defaults = [
-		'authenticator' => Authenticator::class,
+		'authenticator' => NULL,
 		'users' => [],
 	];
 
@@ -34,7 +34,20 @@ class UserExtension extends CompilerExtension {
 				->setClass(IUserDAO::class)
 				->setFactory(StaticUserDAO::class);
 
-			$config['authenticator'] = StaticAuthenticator::class;
+			if ($config['authenticator']) {
+				$builder->addDefinition($this->prefix('staticAuthenticator'))
+					->setClass(IAuthenticator::class)
+					->setFactory(StaticAuthenticator::class)
+					->setAutowired(FALSE);
+
+			} else {
+				$config['authenticator'] = StaticAuthenticator::class;
+
+			}
+
+		} else if (!$config['authenticator']) {
+			$config['authenticator'] = Authenticator::class;
+
 		}
 
 		$builder->addDefinition($this->prefix('authenticator'))
