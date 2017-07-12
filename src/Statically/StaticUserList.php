@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Thunbolt\User\Statically;
 
 use Thunbolt\User\Interfaces\IUserEntity;
+use Thunbolt\User\UserException;
 
 class StaticUserList {
 
@@ -45,6 +46,10 @@ class StaticUserList {
 			'admin' => FALSE,
 		];
 		if (is_array($this->users[$id])) {
+			if (!isset($this->users[$id]['password'])) {
+				throw new UserException('Password is required in static user.');
+			}
+
 			return $this->users[$id] + $defaults;
 		}
 
