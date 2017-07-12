@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Thunbolt\User\Statically;
 
-use Thunbolt\User\Interfaces\IUserModel;
+use Thunbolt\User\Interfaces\IUserEntity;
 use Thunbolt\User\Interfaces\IUserRole;
 
-class StaticUserModel implements IUserModel {
+class StaticUserEntity implements IUserEntity {
 
 	/** @var array */
 	private $data;

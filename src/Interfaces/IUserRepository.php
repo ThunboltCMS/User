@@ -8,14 +8,14 @@ interface IUserRepository {
 
 	/**
 	 * @param mixed $id
-	 * @return null|IUserModel
+	 * @return null|IUserEntity
 	 */
-	public function getUserById($id): ?IUserModel;
+	public function getUserById($id): ?IUserEntity;
 
 	/**
 	 * @param mixed $value
-	 * @return null|IUserModel
+	 * @return null|IUserEntity
 	 */
-	public function login($value): ?IUserModel;
+	public function login($value): ?IUserEntity;
 
 }

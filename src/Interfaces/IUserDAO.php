@@ -6,7 +6,7 @@ namespace Thunbolt\User\Interfaces;
 
 interface IUserDAO {
 
-	public function merge(IUserModel $model): void;
+	public function merge(IUserEntity $model): void;
 
 	public function getRepository(): IUserRepository;
 

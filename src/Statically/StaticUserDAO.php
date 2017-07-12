@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Thunbolt\User\Statically;
 
 use Thunbolt\User\Interfaces\IUserDAO;
-use Thunbolt\User\Interfaces\IUserModel;
+use Thunbolt\User\Interfaces\IUserEntity;
 use Thunbolt\User\Interfaces\IUserRepository;
 
 class StaticUserDAO implements IUserDAO {
@@ -17,7 +17,7 @@ class StaticUserDAO implements IUserDAO {
 		$this->repository = new StaticUserRepository($userList);
 	}
 
-	public function merge(IUserModel $model): void {
+	public function merge(IUserEntity $model): void {
 		// void
 	}
 

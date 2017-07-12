@@ -11,7 +11,7 @@ use Nette\Security\IAuthorizator;
 use Nette\Security\IUserStorage;
 use Thunbolt\User\Interfaces\IEntity;
 use Thunbolt\User\Interfaces\IUserDAO;
-use Thunbolt\User\Interfaces\IUserModel;
+use Thunbolt\User\Interfaces\IUserEntity;
 
 /**
  * @property string $avatar
@@ -35,7 +35,7 @@ class User extends Security\User implements IUser {
 
 	/**
 	 * @throws UserException
-	 * @return IUserModel
+	 * @return IUserEntity
 	 */
 	public function getEntity() {
 		$identity = $this->getIdentity();

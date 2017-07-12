@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Thunbolt\User\Statically;
 
-use Thunbolt\User\Interfaces\IUserModel;
+use Thunbolt\User\Interfaces\IUserEntity;
 
 class StaticUserList {
 
@@ -15,15 +15,15 @@ class StaticUserList {
 		$this->users = $users;
 	}
 
-	public function getById($id): ?IUserModel {
+	public function getById($id): ?IUserEntity {
 		if (!isset($this->users[$id])) {
 			return NULL;
 		}
 
-		return new StaticUserModel($this->extract($id));
+		return new StaticUserEntity($this->extract($id));
 	}
 
-	public function login($id, $password): ?IUserModel {
+	public function login($id, $password): ?IUserEntity {
 		if (!isset($this->users[$id])) {
 			return NULL;
 		}
@@ -33,7 +33,7 @@ class StaticUserList {
 			return NULL;
 		}
 
-		return new StaticUserModel($data);
+		return new StaticUserEntity($data);
 	}
 
 	private function extract($id): array {
