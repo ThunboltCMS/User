@@ -65,7 +65,8 @@ class UserStorage extends Http\UserStorage {
 		$identity = parent::getIdentity();
 
 		if ($identity instanceof Identity) {
-			$this->identity = new Identity($identity->getId(), $this->userDAO->getRepository()->getUserById($identity->getId()));
+			$identity->setEntity($this->userDAO->getRepository()->getUserById($identity->getId()));
+			$this->identity = $identity;
 		}
 
 		return $this->identity;

@@ -82,6 +82,18 @@ class User extends Security\User implements IUser {
 		return $this->getEntity()->getRegistrationDate();
 	}
 
+	public function getExtra(string $name) {
+		return $this->getIdentity()->getExtra($name);
+	}
+
+	public function setExtra(string $name, $value): void {
+		$this->getIdentity()->setExtra($name, $value);
+	}
+
+	public function hasExtra(string $name): bool {
+		return $this->getIdentity()->hasExtra($name);
+	}
+
 	/************************* User methods **************************/
 
 	public function merge(): void {

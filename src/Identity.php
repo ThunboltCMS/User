@@ -12,11 +12,29 @@ class Identity implements Nette\Security\IIdentity {
 	/** @var IUserEntity */
 	private $entity;
 
+	/** @var array */
+	private $extras = [];
+
 	/** @var int */
 	private $id;
 
 	public function __construct($id, ?IUserEntity $entity = NULL) {
 		$this->setId($id);
+		$this->entity = $entity;
+	}
+
+	/**
+	 * @param string $name
+	 * @param $value
+	 */
+	public function setExtra(string $name, $value) {
+		$this->extras[$name] = $value;
+	}
+
+	/**
+	 * @param IUserEntity $entity
+	 */
+	public function setEntity(IUserEntity $entity) {
 		$this->entity = $entity;
 	}
 
@@ -29,6 +47,14 @@ class Identity implements Nette\Security\IIdentity {
 		$this->id = $id;
 
 		return $this;
+	}
+
+	public function getExtra(string $name) {
+		return $this->extras[$name] ?? null;
+	}
+
+	public function getExtras(): array {
+		return $this->extras;
 	}
 
 	/**
@@ -119,7 +145,7 @@ class Identity implements Nette\Security\IIdentity {
 	 * @return array
 	 */
 	public function __sleep(): array {
-		return ['id'];
+		return ['id', 'extras'];
 	}
 
 }
