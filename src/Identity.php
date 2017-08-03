@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace Thunbolt\User;
 
 use Nette;
+use Thunbolt\User\Interfaces\IUserDAO;
 use Thunbolt\User\Interfaces\IUserEntity;
 
 class Identity implements Nette\Security\IIdentity {
+
+	/** @var int */
+	private $id;
 
 	/** @var IUserEntity */
 	private $entity;
@@ -15,38 +19,32 @@ class Identity implements Nette\Security\IIdentity {
 	/** @var array */
 	private $extras = [];
 
-	/** @var int */
-	private $id;
+	/** @var IUserDAO */
+	private $userDAO;
 
-	public function __construct($id, ?IUserEntity $entity = NULL) {
+	public function __construct($id) {
 		$this->setId($id);
-		$this->entity = $entity;
 	}
 
 	/**
-	 * @param string $name
-	 * @param $value
+	 * @param IUserDAO $userDAO
 	 */
-	public function setExtra(string $name, $value) {
-		$this->extras[$name] = $value;
+	public function setUserDAO(IUserDAO $userDAO) {
+		$this->userDAO = $userDAO;
 	}
 
-	/**
-	 * @param IUserEntity $entity
-	 */
-	public function setEntity(IUserEntity $entity) {
-		$this->entity = $entity;
+	public function getId() {
+		return $this->id;
 	}
 
-	/**
-	 * Sets the ID of user.
-	 * @param mixed
-	 * @return self
-	 */
 	public function setId($id) {
 		$this->id = $id;
 
 		return $this;
+	}
+
+	public function setExtra(string $name, $value): void {
+		$this->extras[$name] = $value;
 	}
 
 	public function getExtra(string $name) {
@@ -57,93 +55,54 @@ class Identity implements Nette\Security\IIdentity {
 		return $this->extras;
 	}
 
-	/**
-	 * Returns the ID of user.
-	 *
-	 * @return mixed
-	 */
-	public function getId() {
-		return $this->id;
+	public function hasExtra(string $name): bool {
+		return isset($this->extras[$name]);
 	}
 
-	/**
-	 * Returns a list of roles that the user is a member of.
-	 *
-	 * @return array
-	 */
-	public function getRoles(): array {
-		return [$this->entity->getRole()];
+	public function hasEntity(): bool {
+		return $this->getEntity() !== null;
 	}
 
-	/**
-	 * @return IUserEntity
-	 */
-	public function getEntity(): IUserEntity {
+	public function getEntity(): ?IUserEntity {
+		if (!$this->entity) {
+			$this->entity = $this->userDAO->getRepository()->getUserById($this->getId());
+		}
+
 		return $this->entity;
 	}
 
-	/**
-	 * Sets user data value.
-	 *
-	 * @param string $key
-	 * @param mixed $value
-	 * @return void
-	 */
-	public function __set(string $key, $value): void {
-		$this->entity->$key = $value;
+	public function getRoles(): array {
+		return [$this->getEntity()->getRole()];
 	}
 
-	/**
-	 * Returns user data value.
-	 *
-	 * @param string $key
-	 * @return mixed
-	 */
+	/************************* Magic **************************/
+
+	public function __set(string $key, $value): void {
+		$this->getEntity()->$key = $value;
+	}
+
 	public function &__get(string $key) {
-		$get = $this->entity->$key;
+		$get = $this->getEntity()->$key;
 
 		return $get;
 	}
 
-	/**
-	 * Is property defined?
-	 *
-	 * @param string $key
-	 * @return bool
-	 */
 	public function __isset(string $key): bool {
-		return isset($this->entity->$key);
+		return isset($this->getEntity()->$key);
 	}
 
-	/**
-	 * Removes property.
-	 *
-	 * @param string $name
-	 * @return void
-	 * @throws Nette\MemberAccessException
-	 */
 	public function __unset(string $name): void {
-		unset($this->entity->$name);
+		unset($this->getEntity()->$name);
 	}
 
-	/**
-	 * Calls method from entity
-	 *
-	 * @param string $name
-	 * @param array $args
-	 * @return mixed
-	 */
 	public function __call(string $name, array $args) {
-		if ($this->entity) {
+		if ($this->getEntity()) {
 			return call_user_func_array([$this->entity, $name], $args);
 		}
 
 		return NULL;
 	}
 
-	/**
-	 * @return array
-	 */
 	public function __sleep(): array {
 		return ['id', 'extras'];
 	}

@@ -27,26 +27,8 @@ class UserStorage extends Http\UserStorage {
 		$this->userDAO = $userDAO;
 	}
 
-	/**
-	 * Is this user authenticated and exists in db?
-	 *
-	 * @return bool
-	 */
-	public function isAuthenticated(): bool {
-		$authenticated = parent::isAuthenticated();
-
-		if ($authenticated && $this->getIdentity() instanceof Identity && !$this->getIdentity()->getEntity()) { // User not exists in DB
-			$this->setAuthenticated(FALSE);
-			$this->setIdentity(NULL);
-
-			return FALSE;
-		}
-
-		return $authenticated;
-	}
-
 	public function setIdentity(IIdentity $identity = NULL) {
-		if ($identity instanceof Identity && $identity->getEntity()) {
+		if ($identity instanceof Identity) {
 			$this->identity = $identity;
 		}
 
@@ -59,14 +41,13 @@ class UserStorage extends Http\UserStorage {
 	 * @return \Nette\Security\IIdentity|Identity
 	 */
 	public function getIdentity(): ?IIdentity {
-		if ($this->identity) {
-			return $this->identity;
-		}
-		$identity = parent::getIdentity();
+		if (!$this->identity) {
+			$identity = parent::getIdentity();
 
-		if ($identity instanceof Identity) {
-			$identity->setEntity($this->userDAO->getRepository()->getUserById($identity->getId()));
-			$this->identity = $identity;
+			if ($identity instanceof Identity) {
+				$identity->setUserDAO($this->userDAO);
+				$this->identity = $identity;
+			}
 		}
 
 		return $this->identity;
