@@ -22,8 +22,9 @@ class Identity implements Nette\Security\IIdentity {
 	/** @var IUserDAO */
 	private $userDAO;
 
-	public function __construct($id) {
+	public function __construct($id, ?IUserEntity $entity = null) {
 		$this->setId($id);
+		$this->entity = $entity;
 	}
 
 	/**
