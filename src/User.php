@@ -91,6 +91,10 @@ class User extends Security\User implements IUser {
 	}
 
 	public function hasExtra(string $name): bool {
+		if (!$this->getIdentity()) {
+			return false;
+		}
+
 		return $this->getIdentity()->hasExtra($name);
 	}
 
