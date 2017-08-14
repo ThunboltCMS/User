@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Thunbolt\User;
 
-use Thunbolt\User\Interfaces\IEntity;
+use Thunbolt\User\Interfaces\IUserEntity;
 
 interface IIdentity extends \Nette\Security\IIdentity {
 
 	/**
-	 * @return IEntity|\Model\User
+	 * @return IUserEntity|null
 	 */
-	public function getEntity();
+	public function getEntity(): ?IUserEntity;
 
 }

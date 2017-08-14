@@ -22,28 +22,13 @@ interface IUserEntity {
 	public function getId();
 
 	/**
-	 * @return IUserRole|null
-	 */
-	public function getRole(): ?IUserRole;
-
-	/**
 	 * @return string
 	 */
 	public function getName(): string;
 
 	/**
-	 * @return string|null
-	 */
-	public function getAvatar(): ?string;
-
-	/**
 	 * @return bool
 	 */
 	public function isAdmin(): bool;
-
-	/**
-	 * @return \DateTime|null
-	 */
-	public function getRegistrationDate(): ?\DateTime;
 
 }

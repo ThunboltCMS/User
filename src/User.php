@@ -4,22 +4,17 @@ declare(strict_types=1);
 
 namespace Thunbolt\User;
 
-use Kdyby\Doctrine\EntityManager;
 use Nette\Security;
 use Nette\Security\IAuthenticator;
 use Nette\Security\IAuthorizator;
 use Nette\Security\IUserStorage;
-use Thunbolt\User\Interfaces\IEntity;
 use Thunbolt\User\Interfaces\IUserDAO;
 use Thunbolt\User\Interfaces\IUserEntity;
 
 /**
- * @property string $avatar
- * @property string $name
- * @property string $primary
- * @property string $roleName
+ * @property-read string $name
  */
-class User extends Security\User implements IUser {
+class User extends Security\User {
 
 	/** @var IUserDAO */
 	private $userDAO;
@@ -54,13 +49,6 @@ class User extends Security\User implements IUser {
 	}
 
 	/**
-	 * @return string|null
-	 */
-	public function getAvatar(): ?string {
-		return $this->getEntity()->getAvatar();
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getName(): string {
@@ -68,28 +56,25 @@ class User extends Security\User implements IUser {
 	}
 
 	/**
-	 * @return string
+	 * @param string $name
+	 * @return mixed
 	 */
-	public function getRoleName(): ?string {
-		if (!$this->getEntity()->getRole()) {
-			return NULL;
-		}
-
-		return $this->getEntity()->getRole()->getName();
-	}
-
-	public function getRegistrationDate(): ?\DateTime {
-		return $this->getEntity()->getRegistrationDate();
-	}
-
 	public function getExtra(string $name) {
 		return $this->getIdentity()->getExtra($name);
 	}
 
+	/**
+	 * @param string $name
+	 * @param mixed $value
+	 */
 	public function setExtra(string $name, $value): void {
 		$this->getIdentity()->setExtra($name, $value);
 	}
 
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
 	public function hasExtra(string $name): bool {
 		if (!$this->getIdentity()) {
 			return false;
@@ -102,22 +87,6 @@ class User extends Security\User implements IUser {
 
 	public function merge(): void {
 		$this->userDAO->merge($this->getEntity());
-	}
-
-	/**
-	 * @param string $resource
-	 * @param string $privilege
-	 * @return bool
-	 */
-	public function isAllowed($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL): bool {
-		if (!$this->isLoggedIn()) {
-			return FALSE;
-		}
-		if (strpos($resource, ':')) {
-			list($resource, $privilege) = explode(':', $resource);
-		}
-
-		return $this->getAuthorizator()->isAllowed($this->getEntity()->getRole(), $resource, $privilege);
 	}
 
 }

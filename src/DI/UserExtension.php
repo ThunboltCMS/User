@@ -20,6 +20,7 @@ class UserExtension extends CompilerExtension {
 	public $defaults = [
 		'authenticator' => NULL,
 		'users' => [],
+		'userClass' => User::class,
 	];
 
 	public function loadConfiguration(): void {
@@ -57,13 +58,16 @@ class UserExtension extends CompilerExtension {
 
 	public function beforeCompile(): void {
 		$builder = $this->getContainerBuilder();
+		$config = $this->validateConfig($this->defaults);
 
 		$builder->getDefinition('security.userStorage')
 			->setFactory(UserStorage::class);
 
-		$builder->getDefinition('user')
-			->setClass(User::class)
-			->setFactory(User::class);
+		if ($config['userClass']) {
+			$builder->getDefinition('user')
+				->setClass($config['userClass'])
+				->setFactory($config['userClass']);
+		}
 	}
 
 }

@@ -41,8 +41,6 @@ class StaticUserList {
 		$defaults = [
 			'id' => $id,
 			'name' => $id,
-			'registration' => NULL,
-			'avatar' => NULL,
 			'admin' => FALSE,
 		];
 		if (is_array($this->users[$id])) {
