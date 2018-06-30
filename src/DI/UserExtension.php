@@ -29,15 +29,15 @@ class UserExtension extends CompilerExtension {
 
 		if ($config['users']) {
 			$builder->addDefinition($this->prefix('userList'))
-				->setClass(StaticUserList::class, [$config['users']]);
+				->setFactory(StaticUserList::class, [$config['users']]);
 
 			$builder->addDefinition($this->prefix('userDAO'))
-				->setClass(IUserDAO::class)
+				->setType(IUserDAO::class)
 				->setFactory(StaticUserDAO::class);
 
 			if ($config['authenticator']) {
 				$builder->addDefinition($this->prefix('staticAuthenticator'))
-					->setClass(IAuthenticator::class)
+					->setType(IAuthenticator::class)
 					->setFactory(StaticAuthenticator::class)
 					->setAutowired(FALSE);
 
@@ -65,7 +65,7 @@ class UserExtension extends CompilerExtension {
 
 		if ($config['userClass']) {
 			$builder->getDefinition('user')
-				->setClass($config['userClass'])
+				->setType($config['userClass'])
 				->setFactory($config['userClass']);
 		}
 	}
