@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Thunbolt\User;
 
@@ -19,8 +17,8 @@ class User extends Security\User {
 	/** @var IUserDAO */
 	private $userDAO;
 
-	public function __construct(IUserStorage $storage, IUserDAO $userDAO, IAuthenticator $authenticator = NULL,
-								IAuthorizator $authorizator = NULL) {
+	public function __construct(IUserStorage $storage, IUserDAO $userDAO, ?IAuthenticator $authenticator = null,
+								?IAuthorizator $authorizator = null) {
 		parent::__construct($storage, $authenticator, $authorizator);
 
 		$this->userDAO = $userDAO;
@@ -81,6 +79,26 @@ class User extends Security\User {
 		}
 
 		return $this->getIdentity()->hasExtra($name);
+	}
+
+	public function isAllowedResource($resource = IAuthorizator::ALL): bool {
+		foreach ($this->getRoles() as $role) {
+			if ($this->getAuthorizator()->isAllowedResource($role, $resource)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public function isAllowedSource($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL, $source): bool {
+		foreach ($this->getRoles() as $role) {
+			if ($this->getAuthorizator()->isAllowedSource($role, $resource, $privilege, $this->isLoggedIn() ? $this->getEntity() : null, $source)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/************************* User methods **************************/

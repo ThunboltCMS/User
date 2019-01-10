@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Thunbolt\User;
 
 use Nette;
+use Thunbolt\User\Interfaces\IRoleEntity;
 use Thunbolt\User\Interfaces\IUserDAO;
 use Thunbolt\User\Interfaces\IUserEntity;
 
@@ -73,7 +74,11 @@ class Identity implements Nette\Security\IIdentity {
 	}
 
 	public function getRoles(): array {
-		return [$this->getEntity()->getRole()];
+		if (!$this->getEntity() instanceof IRoleEntity) {
+			throw new UserException('User entity must be instance of ' . IRoleEntity::class);
+		}
+
+		return $this->getEntity()->getRoles();
 	}
 
 	/************************* Magic **************************/

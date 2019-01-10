@@ -30,13 +30,14 @@ class Authenticator implements IAuthenticator {
 		$repository = $this->userDAO->getRepository();
 
 		$row = $repository->login($email);
+		$hash = new Security\Passwords();
 		if (!$row) {
 			throw new UserNotFoundException();
 
-		} elseif (!Security\Passwords::verify($password, $row->getPassword())) {
+		} elseif (!$hash->verify($password, $row->getPassword())) {
 			throw new BadPasswordException();
 
-		} elseif (Security\Passwords::needsRehash($row->getPassword())) {
+		} elseif ($hash->needsRehash($row->getPassword())) {
 			$row->setPassword($password);
 			$this->userDAO->merge($row);
 		}

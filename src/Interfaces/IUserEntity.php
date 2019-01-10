@@ -26,9 +26,4 @@ interface IUserEntity {
 	 */
 	public function getName(): string;
 
-	/**
-	 * @return bool
-	 */
-	public function isAdmin(): bool;
-
 }
