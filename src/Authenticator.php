@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Thunbolt\User;
 
@@ -19,10 +17,10 @@ class Authenticator implements IAuthenticator {
 
 	/**
 	 * @param array $credentials
-	 * @throws BadPasswordException
+	 * @return Security\IIdentity|Identity
 	 * @throws UserException
 	 * @throws UserNotFoundException
-	 * @return Security\IIdentity|Identity
+	 * @throws BadPasswordException
 	 */
 	public function authenticate(array $credentials): Security\IIdentity {
 		list($email, $password) = $credentials;
@@ -33,11 +31,9 @@ class Authenticator implements IAuthenticator {
 		$hash = new Security\Passwords();
 		if (!$row) {
 			throw new UserNotFoundException();
-
-		} elseif (!$hash->verify($password, $row->getPassword())) {
+		} else if (!$hash->verify($password, $row->getPassword())) {
 			throw new BadPasswordException();
-
-		} elseif ($hash->needsRehash($row->getPassword())) {
+		} else if ($hash->needsRehash($row->getPassword())) {
 			$row->setPassword($password);
 			$this->userDAO->merge($row);
 		}

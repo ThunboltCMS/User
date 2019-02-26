@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Thunbolt\User;
 
@@ -12,7 +12,7 @@ use Thunbolt\User\Interfaces\IUserEntity;
 /**
  * @property-read string $name
  */
-class User extends Security\User {
+class User extends Security\User implements IUser {
 
 	/** @var IUserDAO */
 	private $userDAO;
@@ -27,8 +27,8 @@ class User extends Security\User {
 	/************************* Own properties and methods **************************/
 
 	/**
-	 * @throws UserException
 	 * @return IUserEntity
+	 * @throws UserException
 	 */
 	public function getEntity() {
 		$identity = $this->getIdentity();
@@ -93,7 +93,8 @@ class User extends Security\User {
 
 	public function isAllowedSource($resource = IAuthorizator::ALL, $privilege = IAuthorizator::ALL, $source): bool {
 		foreach ($this->getRoles() as $role) {
-			if ($this->getAuthorizator()->isAllowedSource($role, $resource, $privilege, $this->isLoggedIn() ? $this->getEntity() : null, $source)) {
+			if ($this->getAuthorizator()
+				->isAllowedSource($role, $resource, $privilege, $this->isLoggedIn() ? $this->getEntity() : null, $source)) {
 				return true;
 			}
 		}

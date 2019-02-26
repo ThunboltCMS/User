@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Thunbolt\User;
 
@@ -27,7 +25,7 @@ class UserStorage extends Http\UserStorage {
 		$this->userDAO = $userDAO;
 	}
 
-	public function setIdentity(IIdentity $identity = NULL) {
+	public function setIdentity(IIdentity $identity = null) {
 		if ($identity instanceof Identity) {
 			$this->identity = $identity;
 		}

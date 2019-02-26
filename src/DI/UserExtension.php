@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Thunbolt\User\DI;
 
@@ -18,7 +16,7 @@ class UserExtension extends CompilerExtension {
 
 	/** @var array */
 	public $defaults = [
-		'authenticator' => NULL,
+		'authenticator' => null,
 		'users' => [],
 		'userClass' => User::class,
 	];
@@ -39,16 +37,14 @@ class UserExtension extends CompilerExtension {
 				$builder->addDefinition($this->prefix('staticAuthenticator'))
 					->setType(IAuthenticator::class)
 					->setFactory(StaticAuthenticator::class)
-					->setAutowired(FALSE);
-
+					->setAutowired(false);
 			} else {
 				$config['authenticator'] = StaticAuthenticator::class;
-
 			}
-
-		} else if (!$config['authenticator']) {
-			$config['authenticator'] = Authenticator::class;
-
+		} else {
+			if (!$config['authenticator']) {
+				$config['authenticator'] = Authenticator::class;
+			}
 		}
 
 		$builder->addDefinition($this->prefix('authenticator'))

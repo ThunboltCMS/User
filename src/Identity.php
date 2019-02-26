@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Thunbolt\User;
 
@@ -106,7 +104,7 @@ class Identity implements Nette\Security\IIdentity {
 			return call_user_func_array([$this->entity, $name], $args);
 		}
 
-		return NULL;
+		return null;
 	}
 
 	public function __sleep(): array {

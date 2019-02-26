@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Thunbolt\User\Statically;
 
@@ -21,9 +19,9 @@ class StaticAuthenticator implements Security\IAuthenticator {
 
 	/**
 	 * @param array $credentials
-	 * @throws BadPasswordException
-	 * @throws UserNotFoundException
 	 * @return Security\IIdentity|Identity
+	 * @throws UserNotFoundException
+	 * @throws BadPasswordException
 	 */
 	public function authenticate(array $credentials): Security\IIdentity {
 		list($email, $password) = $credentials;
@@ -33,10 +31,8 @@ class StaticAuthenticator implements Security\IAuthenticator {
 		$row = $repository->login($email);
 		if (!$row) {
 			throw new UserNotFoundException();
-
-		} elseif ($password !== $row->getPassword()) {
+		} else if ($password !== $row->getPassword()) {
 			throw new BadPasswordException();
-
 		}
 
 		return new Identity($row->getId(), $row);
