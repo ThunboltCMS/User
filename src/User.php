@@ -12,7 +12,7 @@ use Thunbolt\User\Interfaces\IUserEntity;
 /**
  * @property-read string $name
  */
-class User extends Security\User implements IUser {
+class User extends Security\User {
 
 	/** @var IUserDAO */
 	private $userDAO;
@@ -51,34 +51,6 @@ class User extends Security\User implements IUser {
 	 */
 	public function getName(): string {
 		return $this->getEntity()->getName();
-	}
-
-	/**
-	 * @param string $name
-	 * @return mixed
-	 */
-	public function getExtra(string $name) {
-		return $this->getIdentity()->getExtra($name);
-	}
-
-	/**
-	 * @param string $name
-	 * @param mixed $value
-	 */
-	public function setExtra(string $name, $value): void {
-		$this->getIdentity()->setExtra($name, $value);
-	}
-
-	/**
-	 * @param string $name
-	 * @return bool
-	 */
-	public function hasExtra(string $name): bool {
-		if (!$this->getIdentity()) {
-			return false;
-		}
-
-		return $this->getIdentity()->hasExtra($name);
 	}
 
 	public function isAllowedResource($resource = IAuthorizator::ALL): bool {

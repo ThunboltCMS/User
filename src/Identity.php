@@ -15,9 +15,6 @@ class Identity implements Nette\Security\IIdentity {
 	/** @var IUserEntity */
 	private $entity;
 
-	/** @var array */
-	private $extras = [];
-
 	/** @var IUserDAO */
 	private $userDAO;
 
@@ -41,22 +38,6 @@ class Identity implements Nette\Security\IIdentity {
 		$this->id = $id;
 
 		return $this;
-	}
-
-	public function setExtra(string $name, $value): void {
-		$this->extras[$name] = $value;
-	}
-
-	public function getExtra(string $name) {
-		return $this->extras[$name] ?? null;
-	}
-
-	public function getExtras(): array {
-		return $this->extras;
-	}
-
-	public function hasExtra(string $name): bool {
-		return isset($this->extras[$name]);
 	}
 
 	public function hasEntity(): bool {
@@ -108,7 +89,7 @@ class Identity implements Nette\Security\IIdentity {
 	}
 
 	public function __sleep(): array {
-		return ['id', 'extras'];
+		return ['id'];
 	}
 
 }
