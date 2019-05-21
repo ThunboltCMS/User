@@ -3,6 +3,8 @@
 namespace Thunbolt\User\DI;
 
 use Nette\DI\CompilerExtension;
+use Nette\Schema\Expect;
+use Nette\Schema\Schema;
 use Nette\Security\IAuthenticator;
 use Thunbolt\User\Authenticator;
 use Thunbolt\User\Interfaces\IUserDAO;
@@ -14,16 +16,24 @@ use Thunbolt\User\UserStorage;
 
 class UserExtension extends CompilerExtension {
 
-	/** @var array */
-	public $defaults = [
-		'authenticator' => null,
-		'users' => [],
-		'userClass' => User::class,
-	];
+	public function getConfigSchema(): Schema {
+		return Expect::structure([
+			'authenticator' => Expect::string(),
+			'users' => Expect::arrayOf(
+				Expect::structure([
+					'id' => Expect::string()->required(),
+					'name' => Expect::string()->required(),
+					'password' => Expect::string()->required(),
+					'admin' => Expect::bool(false),
+				])
+			),
+			'userClass' => Expect::string(User::class),
+		]);
+	}
 
 	public function loadConfiguration(): void {
 		$builder = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults);
+		$config = (array) $this->getConfig();
 
 		if ($config['users']) {
 			$builder->addDefinition($this->prefix('userList'))
@@ -54,7 +64,7 @@ class UserExtension extends CompilerExtension {
 
 	public function beforeCompile(): void {
 		$builder = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults);
+		$config = (array) $this->getConfig();
 
 		$builder->getDefinition('security.userStorage')
 			->setFactory(UserStorage::class);

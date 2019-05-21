@@ -7,11 +7,13 @@ use Thunbolt\User\UserException;
 
 class StaticUserList {
 
-	/** @var array */
-	private $users;
+	/** @var mixed[] */
+	private $users = [];
 
 	public function __construct(array $users) {
-		$this->users = $users;
+		foreach ($users as $user) {
+			$this->users[$user->id] = (array) $user;
+		}
 	}
 
 	public function getById($id): ?IUserEntity {
