@@ -7,6 +7,8 @@ use Nette\Schema\Expect;
 use Nette\Schema\Schema;
 use Nette\Security\IAuthenticator;
 use Thunbolt\User\Authenticator;
+use Thunbolt\User\Forms\SignInForm;
+use Thunbolt\User\Interfaces\ISignInForm;
 use Thunbolt\User\Interfaces\IUserDAO;
 use Thunbolt\User\Statically\StaticAuthenticator;
 use Thunbolt\User\Statically\StaticUserDAO;
@@ -28,6 +30,9 @@ class UserExtension extends CompilerExtension {
 				])
 			),
 			'userClass' => Expect::string(User::class),
+			'registration' => Expect::structure([
+				'signInForm' => Expect::bool(false),
+			]),
 		]);
 	}
 
@@ -56,6 +61,12 @@ class UserExtension extends CompilerExtension {
 				$config['authenticator'] = Authenticator::class;
 			}
 		}
+
+		if ($config['registration']->signInForm) {
+			$builder->addDefinition($this->prefix('signInForm'))
+				->setType(ISignInForm::class)
+				->setFactory(SignInForm::class);
+		}	
 
 		$builder->addDefinition($this->prefix('authenticator'))
 			->setClass(IAuthenticator::class)
