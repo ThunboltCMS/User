@@ -5,46 +5,50 @@ namespace Thunbolt\User;
 use Nette\Http\Session;
 use Nette\Http;
 use Nette\Security\IIdentity;
-use Thunbolt\User\Interfaces\IUserDAO;
+use Thunbolt\User\Identity\IIdentityFactory;
+use Thunbolt\User\Model\IAccountLoginModel;
 
 class UserStorage extends Http\UserStorage {
 
 	/** @var Identity */
 	private $identity;
 
-	/** @var IUserDAO */
-	private $userDAO;
+	/** @var IAccountLoginModel */
+	private $model;
 
-	/**
-	 * @param Session $sessionHandler
-	 * @param IUserDAO $userDAO
-	 */
-	public function __construct(Session $sessionHandler, IUserDAO $userDAO) {
+	/** @var IIdentityFactory */
+	private $identityFactory;
+
+	public function __construct(Session $sessionHandler, IAccountLoginModel $model, IIdentityFactory $identityFactory) {
 		parent::__construct($sessionHandler);
 
-		$this->userDAO = $userDAO;
+		$this->model = $model;
+		$this->identityFactory = $identityFactory;
 	}
 
 	public function setIdentity(IIdentity $identity = null) {
-		if ($identity instanceof Identity) {
+		if ($identity instanceof Identity\IIdentity || $identity === null) {
 			$this->identity = $identity;
 		}
 
 		return parent::setIdentity($identity);
 	}
 
-	/**
-	 * Returns current user identity, if any.
-	 *
-	 * @return \Nette\Security\IIdentity|Identity
-	 */
+	public function isAuthenticated(): bool {
+		return parent::isAuthenticated() && $this->getIdentity() !== null;
+	}
+
 	public function getIdentity(): ?IIdentity {
 		if (!$this->identity) {
 			$identity = parent::getIdentity();
 
-			if ($identity instanceof Identity) {
-				$identity->setUserDAO($this->userDAO);
-				$this->identity = $identity;
+			$account = $this->model->findById($identity->getId());
+			if (!$account) { // clear identity, account not found
+				$this->setAuthenticated(false);
+				$this->setIdentity(null);
+
+			} else {
+				$this->identity = $this->identityFactory->create($identity->getId(), $account);
 			}
 		}
 

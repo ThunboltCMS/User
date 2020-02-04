@@ -2,7 +2,7 @@
 
 namespace Thunbolt\User\Interfaces;
 
-interface IRoleEntity {
+interface IAccountRoles extends IAccount {
 
 	public function getRoles(): array;
 
