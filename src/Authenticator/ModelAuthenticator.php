@@ -7,11 +7,11 @@ use Nette\Security\IAuthenticator;
 use Nette\Security\IIdentity;
 use Nette\Security\Passwords;
 use Nette\SmartObject;
-use Thunbolt\User\BadPasswordException;
+use Thunbolt\User\Exceptions\BadPasswordException;
+use Thunbolt\User\Exceptions\UserNotFoundException;
 use Thunbolt\User\Identity;
 use Thunbolt\User\Interfaces\IAccount;
 use Thunbolt\User\Model\IAccountLoginModel;
-use Thunbolt\User\UserNotFoundException;
 
 final class ModelAuthenticator implements IAuthenticator {
 
