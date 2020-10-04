@@ -39,16 +39,19 @@ class UserStorage extends Http\UserStorage {
 	}
 
 	public function getIdentity(): ?IIdentity {
-		if (!$this->identity) {
+		if ($this->identity === false) {
 			$identity = parent::getIdentity();
 
-			$account = $this->model->findById($identity->getId());
-			if (!$account) { // clear identity, account not found
-				$this->setAuthenticated(false);
-				$this->setIdentity(null);
-
+			if ($identity) {
+				$account = $this->model->findById($identity->getId());
+				if (!$account) { // clear identity, account not found
+					$this->setAuthenticated(false);
+					$this->setIdentity(null);
+				} else {
+					$this->identity = $this->identityFactory->create($identity->getId(), $account);
+				}
 			} else {
-				$this->identity = $this->identityFactory->create($identity->getId(), $account);
+				$this->identity = null;
 			}
 		}
 
