@@ -10,8 +10,8 @@ use Thunbolt\User\Model\IAccountLoginModel;
 
 class UserStorage extends Http\UserStorage {
 
-	/** @var Identity */
-	private $identity;
+	/** @var Identity|false|null */
+	private $identity = false;
 
 	/** @var IAccountLoginModel */
 	private $model;
@@ -47,6 +47,7 @@ class UserStorage extends Http\UserStorage {
 				if (!$account) { // clear identity, account not found
 					$this->setAuthenticated(false);
 					$this->setIdentity(null);
+					$this->identity = null;
 				} else {
 					$this->identity = $this->identityFactory->create($identity->getId(), $account);
 				}
